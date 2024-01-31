@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order List</title>
+</head>
+<body>
+    <h1>Order List</h1>
+    <ul>
+        <% orders.forEach(order => { %>
+            <li>
+                Order No. <%= order.id %>
+                <ul>
+                    <% order.items.forEach(item => { %>
+                        <li><%= item.name %> - <%= item.price %> PLN</li>
+                    <% }) %>
+                </ul>
+                Order date: <%= order.orderDate %><br>
+                Status: <%= order.status %><br>
+                Total price: <%= order.totalPrice %> PLN
+                <button onclick="location.href='/orders/edit/<%= order.id %>'">Edit</button>
+                <button onclick="location.href='/orders/delete/<%= order.id %>'">Delete</button>
+            </li>
+        <% }) %>
+    </ul>
+    <button onclick="location.href='/orders/new'">Add New Order</button>
+    <button onclick="location.href='/'">Back</button>
+</body>
+</html>

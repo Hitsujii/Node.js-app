@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Order</title>
+</head>
+<body>
+    <h1>Edit Order No. <%= order.id %></h1>
+    <form action="/orders/update/<%= order.id %>" method="POST">
+        Order status:
+        <select name="status">
+            <option value="new" <%= order.status === 'new' ? 'selected' : '' %>>New</option>
+            <option value="in progress" <%= order.status === 'in progress' ? 'selected' : '' %>>In Progress</option>
+            <option value="completed" <%= order.status === 'completed' ? 'selected' : '' %>>Completed</option>
+        </select>
+        <br>
+        Order items:<br>
+        <% items.forEach(item => { %>
+            <div>
+                <input type="checkbox" name="items" value="<%= item.id %>" 
+                <%= order.items.find(i => i.id === item.id) ? 'checked' : '' %>>
+                <%= item.name %> - <%= item.price %> PLN
+            </div>
+        <% }) %>
+        <button type="submit">Update Order</button>
+    </form>
+    <button onclick="location.href='/orders/'">Back</button>
+</body>
+</html>

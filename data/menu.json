@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Pizza Margherita",
+    "description": "Simple pizza with tomato sauce, cheese, and fresh basil",
+    "price": 201.99
+  },
+  {
+    "id": 2,
+    "name": "Spaghetti Carbonara ds",
+    "description": "Classic spaghetti with bacon, pecorino cheese, and black pepper",
+    "price": 25
+  },
+  {
+    "id": 3,
+    "name": "Caesar Salad",
+    "description": "Crunchy salad with chicken, bread, parmesan, and Caesar dressing",
+    "price": 18
+  },
+  {
+    "id": 4,
+    "name": "Oregano",
+    "description": "Additional",
+    "price": 5
+  },
+  {
+    "id": 5,
+    "name": "das",
+    "description": "das",
+    "price": 12
+  },
+  {
+    "id": 6,
+    "name": "parmezan",
+    "description": "parmezan",
+    "price": 123
+  }
+]

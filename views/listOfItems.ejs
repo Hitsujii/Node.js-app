@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Items List</title>
+</head>
+<body>
+    <h1>Menu Items List</h1>
+    <ul>
+        <% items.forEach(item => { %>
+            <li>
+                <%= item.name %> - <%= item.price %> PLN
+                <button onclick="location.href='/menu/edit/<%= item.id %>'">Edit</button>
+                <button onclick="location.href='/menu/delete/<%= item.id %>'">Delete</button>
+            </li>
+        <% }) %>
+    </ul>
+    <button onclick="location.href='/menu/new'">Add New Item</button>
+    <button onclick="location.href='/'">Back</button>
+</body>
+</html>

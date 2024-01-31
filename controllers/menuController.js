@@ -11,12 +11,12 @@ const addMenuItem = (req, res) => {
     };
     items.push(newItem);
     saveDataToFile('../data/menu.json', items);
-    res.redirect('/menu'); // Redirect to the menu list after adding a new item
+    res.redirect('/menu');
 };
 
 const getAllMenuItems = (req, res) => {
     const items = loadDataFromFile('../data/menu.json');
-    res.render('listOfItems', { items }); // Translated view name
+    res.render('listOfItems', { items });
 };
 
 const updateMenuItem = (req, res) => {

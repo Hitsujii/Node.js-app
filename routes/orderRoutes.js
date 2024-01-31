@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { getAllOrders, placeOrder, updateOrder, deleteOrder } = require('../controllers/ordersController'); // Translated function names
-const { loadDataFromFile } = require('../data/jsonHandler'); // Translated function name
+const { getAllOrders, placeOrder, updateOrder, deleteOrder } = require('../controllers/ordersController');
+const { loadDataFromFile } = require('../data/jsonHandler');
 
-router.get('/orders', getAllOrders); // Translated route
+router.get('/orders', getAllOrders);
 
 router.get('/orders/new', (req, res) => {
-    const items = loadDataFromFile('./menu.json'); // Make sure the file path is correct
-    res.render('addOrderForm', { items }); // Translated view name
+    const items = loadDataFromFile('./menu.json');
+    res.render('addOrderForm', { items });
 });
 
-router.post('/orders/add', placeOrder); // Translated route
+router.post('/orders/add', placeOrder);
 
 router.get('/orders/edit/:id', (req, res) => {
     const orderId = req.params.id;
@@ -19,20 +19,20 @@ router.get('/orders/edit/:id', (req, res) => {
 
     const order = orders.find(order => order.id.toString() === orderId);
     if (!order) {
-        return res.status(404).send('Order not found.'); // Translated message
+        return res.status(404).send('Order not found.');
     }
 
-    // Match order items to full menu item details
+    
     const matchedItems = order.items.map(itemId => 
         menuItems.find(item => item.id === itemId));
 
     order.items = matchedItems;
 
-    res.render('editOrderForm', { order, items: menuItems }); // Translated view name
+    res.render('editOrderForm', { order, items: menuItems });
 });
 
-router.post('/orders/update/:id', updateOrder); // Translated route
+router.post('/orders/update/:id', updateOrder);
 
-router.get('/orders/delete/:id', deleteOrder); // Translated route
+router.get('/orders/delete/:id', deleteOrder);
 
 module.exports = router;

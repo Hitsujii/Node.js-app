@@ -19,7 +19,7 @@
   },
   {
     "id": 4,
-    "name": "Oregano",
+    "name": "Oregano2",
     "description": "Additional",
     "price": 5
   },
@@ -27,12 +27,12 @@
     "id": 5,
     "name": "das",
     "description": "das",
-    "price": 12
+    "price": 123
   },
   {
     "id": 6,
     "name": "parmezan",
     "description": "parmezan",
-    "price": 123
+    "price": 121
   }
 ]

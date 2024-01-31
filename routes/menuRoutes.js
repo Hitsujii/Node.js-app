@@ -1,26 +1,37 @@
 const express = require('express');
-const router = express.Router();
-const { addMenuItem, getAllMenuItems, updateMenuItem, deleteMenuItem } = require('../controllers/menuController');
-const { loadDataFromFile } = require('../data/jsonHandler');
+const menuController = require('../controllers/menuController');
+const jsonHandler = require('../data/jsonHandler');
 
-router.get('/menu/new', (req, res) => {
-    res.render('addForm');
-});
-
-router.get('/menu/edit/:id', (req, res) => {
-    const items = loadDataFromFile('../data/menu.json');
-    const item = items.find(item => item.id == req.params.id);
-    if (item) {
-        res.render('editForm', { item });
-    } else {
-        res.status(404).send("Menu item with the given ID not found.");
+class MenuRoutes {
+    constructor() {
+        this.router = express.Router();
+        this.initializeRoutes();
     }
-});
 
-router.post('/menu/add', addMenuItem);
-router.get('/menu', getAllMenuItems);
+    initializeRoutes() {
+        this.router.get('/menu/new', (req, res) => {
+            res.render('addForm');
+        });
 
-router.post('/menu/update/:id', updateMenuItem);
-router.get('/menu/delete/:id', deleteMenuItem);
+        this.router.get('/menu/edit/:id', (req, res) => {
+            const items = jsonHandler.loadDataFromFile('../data/menu.json');
+            const item = items.find(item => item.id == req.params.id);
+            if (item) {
+                res.render('editForm', { item });
+            } else {
+                res.status(404).send("Menu item with the given ID not found.");
+            }
+        });
 
-module.exports = router;
+        this.router.post('/menu/add', menuController.addMenuItem);
+        this.router.get('/menu', menuController.getAllMenuItems);
+        this.router.post('/menu/update/:id', menuController.updateMenuItem);
+        this.router.get('/menu/delete/:id', menuController.deleteMenuItem);
+    }
+
+    getRouter() {
+        return this.router;
+    }
+}
+
+module.exports = new MenuRoutes().getRouter();

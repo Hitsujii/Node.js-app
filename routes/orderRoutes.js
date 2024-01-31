@@ -1,38 +1,55 @@
 const express = require('express');
-const router = express.Router();
-const { getAllOrders, placeOrder, updateOrder, deleteOrder } = require('../controllers/ordersController');
-const { loadDataFromFile } = require('../data/jsonHandler');
+const ordersController = require('../controllers/ordersController');
+const jsonHandler = require('../data/jsonHandler');
 
-router.get('/orders', getAllOrders);
-
-router.get('/orders/new', (req, res) => {
-    const items = loadDataFromFile('./menu.json');
-    res.render('addOrderForm', { items });
-});
-
-router.post('/orders/add', placeOrder);
-
-router.get('/orders/edit/:id', (req, res) => {
-    const orderId = req.params.id;
-    const orders = loadDataFromFile('./orders.json');
-    const menuItems = loadDataFromFile('./menu.json');
-
-    const order = orders.find(order => order.id.toString() === orderId);
-    if (!order) {
-        return res.status(404).send('Order not found.');
+class OrderRoutes {
+    constructor() {
+        this.router = express.Router();
+        this.initializeRoutes();
     }
 
-    
-    const matchedItems = order.items.map(itemId => 
-        menuItems.find(item => item.id === itemId));
+    initializeRoutes() {
+        this.router.get('/orders', ordersController.getAllOrders);
 
-    order.items = matchedItems;
+        this.router.get('/orders/new', (req, res) => {
+            const items = jsonHandler.loadDataFromFile('./menu.json');
+            res.render('addOrderForm', { items });
+        });
 
-    res.render('editOrderForm', { order, items: menuItems });
-});
+        this.router.post('/orders/add', ordersController.placeOrder);
 
-router.post('/orders/update/:id', updateOrder);
+        this.router.get('/orders/edit/:id', (req, res) => {
+            const orderId = req.params.id;
+            const orders = jsonHandler.loadDataFromFile('./orders.json');
+            const menuItems = jsonHandler.loadDataFromFile('./menu.json');
+        
+            const order = orders.find(order => order.id.toString() === orderId);
+            if (!order) {
+                return res.status(404).send('Order not found.');
+            }
+        
+            const matchedItems = [];
+            for (const itemId of order.items) {
+                const menuItem = menuItems.find(item => item.id === itemId);
+                if (menuItem) {
+                    matchedItems.push(menuItem);
+                }
+            }
+        
+            order.items = matchedItems;
+            console.log(matchedItems);
+            res.render('editOrderForm', { order, items: menuItems });
+        });
+        
+        
 
-router.get('/orders/delete/:id', deleteOrder);
+        this.router.post('/orders/update/:id', ordersController.updateOrder);
+        this.router.get('/orders/delete/:id', ordersController.deleteOrder);
+    }
 
-module.exports = router;
+    getRouter() {
+        return this.router;
+    }
+}
+
+module.exports = new OrderRoutes().getRouter();

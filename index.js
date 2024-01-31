@@ -1,25 +1,38 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const PORT = process.env.PORT || 3000;
-
-// import routes
 const orderRoutes = require('./routes/orderRoutes');
 const menuRoutes = require('./routes/menuRoutes');
 
+class App {
+    constructor() {
+        this.app = express();
+        this.port = process.env.PORT || 3000;
+        this.initializeMiddlewares();
+        this.initializeRoutes();
+    }
 
-const app = express();
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+    initializeMiddlewares() {
+        this.app.set('view engine', 'ejs');
+        this.app.set('views', path.join(__dirname, 'views'));
+        this.app.use(express.urlencoded({ extended: true }));
+        this.app.use(bodyParser.json());
+    }
 
-app.use(express.urlencoded({ extended: true }));
+    initializeRoutes() {
+        this.app.use('/', menuRoutes);
+        this.app.use('/', orderRoutes);
+        this.app.get('/', (req, res) => {
+            res.render('homePage');
+        });
+    }
 
-app.use('/', menuRoutes);
-app.use('/', orderRoutes);
-app.get('/', (req, res) => {
-    res.render('homePage');
-});
+    listen() {
+        this.app.listen(this.port, () => {
+            console.log(`Server running on port ${this.port}`);
+        });
+    }
+}
 
-app.use(bodyParser.json());
-
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const server = new App();
+server.listen();

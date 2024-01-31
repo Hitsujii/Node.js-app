@@ -12,9 +12,11 @@
             <li>
                 Order No. <%= order.id %>
                 <ul>
-                    <% order.items.forEach(item => { %>
-                        <li><%= item.name %> - <%= item.price %> PLN</li>
-                    <% }) %>
+                    <% order.items.forEach(item => { 
+                        if (item) { %>
+                            <li><%= item.name %> - <%= item.price %> PLN</li>
+                    <% } 
+                    }) %>
                 </ul>
                 Order date: <%= order.orderDate %><br>
                 Status: <%= order.status %><br>
